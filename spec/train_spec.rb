@@ -26,13 +26,13 @@ let(:user) {double :user}
 		expect(train).to be_at_station
 	end
 
-	it "should be allowed to enter a station" do
-		expect(station).to receive(:allow_in).with(train)
+	it "should be allowed to enter and stop at a station" do
+		expect(station).to receive(:allow_stop).with(train)
 		train.enter(station)
 	end
 
 	it "should know the station it is in" do
-		allow(station).to receive(:allow_in).with(train)
+		allow(station).to receive(:allow_stop).with(train)
 		train.enter(station)
 		expect(train.position).to eq(station)
 	end
@@ -44,7 +44,7 @@ let(:user) {double :user}
 
 	it "can travel from a station to another" do
 		next_station = double :station
-		allow(next_station).to receive(:allow_in).with(train)
+		allow(next_station).to receive(:allow_stop).with(train)
 		train.transit(station, next_station)
 		expect(train.position).to eq(next_station)
 	end

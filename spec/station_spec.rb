@@ -10,8 +10,9 @@ describe Station do
 		expect(station.train_count).to eq(0)
 	end
 
-	it "can allow a train in" do
-		expect{station.allow_in(train)}.to change{station.train_count}.by 1
+	it "can have a train" do
+		allow(train).to receive(:stop)
+		expect{station.allow_stop(train)}.to change{station.train_count}.by 1
 	end
 
 	it "can allow a train to stop in the station" do
@@ -19,9 +20,16 @@ describe Station do
 		station.allow_stop(train)
 	end
 
-	it " can allow a train to leave the station" do
+	it "can allow a train to leave the station" do
+		allow(train).to receive(:stop)
+		station.allow_stop(train)
 		expect(train).to receive(:travel)
 		station.allow_leave(train)
+	end
+
+	it "can't allow a train which isn't in the station to leave" do
+		allow(train).to receive(:travel)
+		expect{station.allow_leave(train)}.to raise_error(RuntimeError)
 	end
 
 end

@@ -29,7 +29,7 @@ class Train
 
 	def enter(station)
 		@station = station
-		station.allow_in(self)
+		station.allow_stop(self)
 	end
 
 	def exit(station)
