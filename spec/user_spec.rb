@@ -6,6 +6,7 @@ describe User do
 	let(:user) {User.new}
 	let(:station) {Station.new}
 	let(:coach) {Coach.new}
+	let(:train) {Train.new}
 
 	it "is not in a station" do
 		expect(user).not_to be_in_station
@@ -20,6 +21,10 @@ describe User do
 		user.touch_in(station)
 		user.touch_out(station)
 		expect(user).not_to be_in_station
+	end
+
+	it "is not in a train" do
+		expect(user).not_to be_in_train
 	end
 
 	it "is not in a train coach" do

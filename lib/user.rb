@@ -1,7 +1,8 @@
 class User
 
-	def initialize(station=false, coach=false)
+	def initialize(station=false, train=false, coach=false)
 		@station = station
+		@train = train
 		@coach = coach
 	end
 
@@ -23,11 +24,18 @@ class User
 		@coach
 	end
 
+	def in_train?
+		@train
+	end
+
 	def board_coach(station, coach)
 		station.let_exit(self)
 		coach.let_enter(self)
 		@station = false
 		@coach = coach
+	end
+
+	def board_train(station, train)
 	end
 
 	def alight_station(coach, station)
