@@ -1,30 +1,25 @@
-require './lib/station.rb'
-require './lib/coach.rb'
 require './lib/user_container.rb'
-require './lib/user.rb'
 
 class PassengerHolder; include UserContainer; end
 
 describe PassengerHolder do
-	
-	let(:station) {Station.new}
-	let(:coach) {Coach.new}
+
 	let(:space) {PassengerHolder.new}
-	let(:user) {User.new}
+	let(:station) {double :station}
+	let(:coach) {double :coach}
+	let(:user) {double :user}
 
 	it "has no users at opening" do
 		expect(space.user_count).to eq(0)
 	end
 
 	it "can let users enter" do
-		space.let_enter(user)
-		expect(space.user_count).to eq(1)
+		expect{space.let_enter(user)}.to change{space.user_count}.by 1
 	end
 
 	it "can let users exit" do
 		space.let_enter(user)
-		space.let_exit(user)
-		expect(space.user_count).to eq(0)
+		expect{space.let_exit(user)}.to change{space.user_count}.by -1
 	end
 
 	it "should know when it's full" do
@@ -38,7 +33,7 @@ describe PassengerHolder do
 	end
 
 	def fill(space)
-		space.capacity.times {space.let_enter(User.new)}
+		space.capacity.times {space.let_enter(user)}
 	end
 
 end
