@@ -5,6 +5,7 @@ class Train
 	def initialize
 		@coaches ||= [Coach.new, Coach.new, Coach.new, Coach.new, Coach.new]
 		self.capacity = 200
+		@station ||= "Depot"
 		stop
 	end
 
@@ -22,6 +23,23 @@ class Train
 
 	def stop
 		@at_station = true
+	end
+
+	def enter(station)
+		@station = station
+	end
+
+	def exit(station)
+		@station = "In transit"
+	end
+
+	def transit(origin, destination)
+		exit(origin)
+		enter(destination)
+	end
+
+	def position
+		@station
 	end
 
 	def coach_count

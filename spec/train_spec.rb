@@ -1,12 +1,11 @@
 require './lib/train.rb'
-require './lib/station.rb'
 
 describe  Train do
 
 let(:train) {Train.new }
-let(:station) {Station.new}
-let(:coach) {Coach.new}
-let(:user) {User.new}
+let(:station) {double :station}
+let(:coach) {double :coach}
+let(:user) {double :user}
 
 	it "has five coaches" do
 		expect(train.coach_count).to eq(5)
@@ -27,18 +26,23 @@ let(:user) {User.new}
 		expect(train).to be_at_station
 	end
 
+	it "can enter a station" do
+		train.enter(station)
+		expect(train.position).to eq(station)
+	end
+
+	it "can exit a station" do
+		train.exit(station)
+		expect(train.position).to eq("In transit")
+	end
+
+	it "travel travel from a station to another" do
+		next_station = double :station
+		train.transit(station, next_station)
+		expect(train.position).to eq(next_station)
+	end
+
 	it "has no passenger" do
-		expect(train.user_count).to eq(0)
-	end
-
-	it "can load users from a station" do
-		train.let_enter(user)
-		expect(train.user_count).to eq(1)
-	end
-
-	it "can unload users at a station" do
-		train.let_enter(user)
-		train.let_exit(user)
 		expect(train.user_count).to eq(0)
 	end
 
@@ -53,8 +57,6 @@ let(:user) {User.new}
 	end
 
 	it "should load all users who are in its coaches" do
-		train = Train.new
-		expect(train.user_count).to eq(0)
 		train.coaches.each do|coach| 
 			coach.let_enter(User.new)
 			coach.users.each do |user|
