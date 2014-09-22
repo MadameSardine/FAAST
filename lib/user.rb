@@ -29,6 +29,7 @@ class User
 	end
 
 	def board_coach(station, coach)
+		raise "User must be in the station to board" if @station !=station
 		station.let_exit(self)
 		coach.let_enter(self)
 		@station = false

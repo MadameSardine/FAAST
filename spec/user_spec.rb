@@ -35,11 +35,19 @@ describe User do
 	end
 
 	it "can board a train coach from a station" do
+		allow(station).to receive(:let_enter).with(user)
+		user.touch_in(station)
 		allow(station).to receive(:let_exit).with(user)
 		allow(coach).to receive(:let_enter).with(user)
 		user.board_coach(station, coach)
 		expect(user).not_to be_in_station
 		expect(user).to be_in_coach
+	end
+
+	it "can board a train coach only if it has touched in a station" do
+		allow(station).to receive(:let_exit).with(user)
+		allow(coach).to receive(:let_enter).with(user)
+		expect{user.board_coach(station, coach)}.to raise_error(RuntimeError)
 	end
 
 	it "can alight at a station from a coach" do
@@ -61,6 +69,8 @@ describe User do
 	end
 
 	it "can enter a coach from a station if not full" do
+		allow(station).to receive(:let_enter).with(user)
+		user.touch_in(station)
 		expect(coach).to receive(:let_enter).with(user)
 		expect(station).to receive(:let_exit).with(user)
 		user.board_coach(station, coach)
