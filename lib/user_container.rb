@@ -19,11 +19,13 @@ module UserContainer
 	end
 
 	def let_enter(user)
+		raise "The user is already inside" if users.include?(user)
 		raise "This space is full, no more user is allowed" if full?
 		users << user
 	end
 
 	def let_exit(user)
+		raise "The user is already outside" if !users.include?(user)
 		users.delete(user)
 	end
 

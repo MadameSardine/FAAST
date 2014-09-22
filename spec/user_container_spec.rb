@@ -1,4 +1,5 @@
 require './lib/user_container.rb'
+require './lib/user.rb'
 
 class PassengerHolder; include UserContainer; end
 
@@ -17,9 +18,18 @@ describe PassengerHolder do
 		expect{space.let_enter(user)}.to change{space.user_count}.by 1
 	end
 
+	it "should not allow an user to enter if user is already inside" do
+		space.let_enter(user)
+		expect{space.let_enter(user)}.to raise_error(RuntimeError)
+	end
+
 	it "can let users exit" do
 		space.let_enter(user)
 		expect{space.let_exit(user)}.to change{space.user_count}.by -1
+	end
+
+	it "should not allow an user to exit if not inside" do
+		expect{space.let_exit(user)}.to raise_error(RuntimeError)
 	end
 
 	it "should know when it's full" do
@@ -33,7 +43,7 @@ describe PassengerHolder do
 	end
 
 	def fill(space)
-		space.capacity.times {space.let_enter(user)}
+		space.capacity.times {space.let_enter(User.new)}
 	end
 
 end
