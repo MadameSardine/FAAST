@@ -35,9 +35,6 @@ class User
 		@coach = coach
 	end
 
-	def board_train(station, train)
-	end
-
 	def alight_station(coach, station)
 		coach.let_exit(self)
 		station.let_enter(self)

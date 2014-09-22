@@ -3,7 +3,7 @@ require './lib/train.rb'
 describe  Train do
 
 let(:train) {Train.new }
-let(:station) {double :station}
+let(:station) {double :station, train_count: true}
 let(:coach) {double :coach}
 let(:user) {double :user}
 
@@ -26,18 +26,25 @@ let(:user) {double :user}
 		expect(train).to be_at_station
 	end
 
-	it "can enter a station" do
+	it "should be allowed to enter a station" do
+		expect(station).to receive(:allow_in).with(train)
+		train.enter(station)
+	end
+
+	it "should know the station it is in" do
+		allow(station).to receive(:allow_in).with(train)
 		train.enter(station)
 		expect(train.position).to eq(station)
 	end
 
-	it "can exit a station" do
+	it "should know when it is in transit between station" do
 		train.exit(station)
 		expect(train.position).to eq("In transit")
 	end
 
-	it "travel travel from a station to another" do
+	it "can travel from a station to another" do
 		next_station = double :station
+		allow(next_station).to receive(:allow_in).with(train)
 		train.transit(station, next_station)
 		expect(train.position).to eq(next_station)
 	end

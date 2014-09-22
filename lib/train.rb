@@ -1,3 +1,5 @@
+require_relative 'user_container'
+
 class Train
 
 	include UserContainer
@@ -27,6 +29,7 @@ class Train
 
 	def enter(station)
 		@station = station
+		station.allow_in(self)
 	end
 
 	def exit(station)
