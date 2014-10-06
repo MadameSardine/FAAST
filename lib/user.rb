@@ -1,13 +1,13 @@
 class User
 
-	def initialize(station=false, train=false, coach=false)
+	def initialize(station=nil, train=nil, coach=nil)
 		@station = station
 		@train = train
 		@coach = coach
 	end
 
 	def in_station?
-		@station
+		!@station.nil?
 	end
 
 	def touch_in(station)
@@ -17,30 +17,37 @@ class User
 
 	def touch_out(station)
 		station.let_exit(self)
-		@station = false
+		@station = nil	
 	end
 
 	def in_coach?
-		@coach
+		!@coach.nil?
 	end
 
 	def in_train?
-		@train
+		!@train.nil? 
 	end
 
 	def board_coach(station, coach)
 		raise "User must be in the station to board" if @station !=station
-		station.let_exit(self)
-		coach.let_enter(self)
-		@station = false
-		@coach = coach
+		exit(:station, station)
+		enter(:coach, coach)
 	end
 
+	def exit(name, place)
+		place.let_exit(self)
+		eval("@#{name.to_s} = nil")
+	end
+
+	def enter(name, place)
+		place.let_enter(self)
+		eval("@#{name.to_s} = place") 
+	end
+
+
 	def alight_station(coach, station)
-		coach.let_exit(self)
-		station.let_enter(self)
-		@station = station
-		@coach = false
+		exit(:coach, coach)
+		enter(:station, station)
 	end
 
 

@@ -9,9 +9,4 @@ describe Coach do
 		expect(coach).to be_full
 	end
 
-	it "should be attached to a train" do
-		expect(coach).to be_attached_to_train
-	end
-
-
 end

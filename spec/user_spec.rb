@@ -47,7 +47,7 @@ describe User do
 	it "can board a train coach only if it has touched in a station" do
 		allow(station).to receive(:let_exit).with(user)
 		allow(coach).to receive(:let_enter).with(user)
-		expect{user.board_coach(station, coach)}.to raise_error(RuntimeError)
+		expect{user.board_coach(station, coach)}.to raise_error "User must be in the station to board"
 	end
 
 	it "can alight at a station from a coach" do

@@ -4,15 +4,13 @@ class Train
 
 	include UserContainer
 
-	def initialize
-		@coaches ||= [Coach.new, Coach.new, Coach.new, Coach.new, Coach.new]
-		self.capacity = 200
-		@station ||= "Depot"
-		stop
-	end
+	attr_reader :coaches
 
-	def coaches
-		@coaches
+	def initialize
+		@coaches = [Coach.new, Coach.new, Coach.new, Coach.new, Coach.new]
+		self.capacity = 200
+		@station = "Depot"
+		at_station
 	end
 
 	def at_station?
@@ -26,6 +24,7 @@ class Train
 	def stop
 		@at_station = true
 	end
+	alias :at_station :stop
 
 	def enter(station)
 		@station = station
@@ -51,7 +50,6 @@ class Train
 
 	def let_enter(user)
 		raise "The train is not stopped, users can not enter" if !at_station?
-		raise "This space is full, no more user is allowed" if full?
 		users << user
 	end
 

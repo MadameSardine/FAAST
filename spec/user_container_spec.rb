@@ -20,7 +20,7 @@ describe PassengerHolder do
 
 	it "should not allow an user to enter if user is already inside" do
 		space.let_enter(user)
-		expect{space.let_enter(user)}.to raise_error(RuntimeError)
+		expect{space.let_enter(user)}.to raise_error"The user is already inside"
 	end
 
 	it "can let users exit" do
@@ -29,7 +29,7 @@ describe PassengerHolder do
 	end
 
 	it "should not allow an user to exit if not inside" do
-		expect{space.let_exit(user)}.to raise_error(RuntimeError)
+		expect{space.let_exit(user)}.to raise_error "The user is already outside"
 	end
 
 	it "should know when it's full" do
@@ -39,7 +39,7 @@ describe PassengerHolder do
 
 	it "should not allow a new user when it's full" do
 		fill(space)
-		expect{space.let_enter(user)}.to raise_error(RuntimeError)
+		expect{space.let_enter(user)}.to raise_error "This space is full, no more user is allowed"
 	end
 
 	def fill(space)

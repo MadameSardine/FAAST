@@ -1,6 +1,7 @@
 module UserContainer
 
 	DEFAULT_CAPACITY = 40
+	attr_writer :capacity
 
 	def users
 		@users ||=[]
@@ -8,10 +9,6 @@ module UserContainer
 
 	def capacity
 		@capacity ||= DEFAULT_CAPACITY
-	end
-
-	def capacity=(value)
-		@capacity = value
 	end
 
 	def user_count

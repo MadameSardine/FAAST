@@ -55,12 +55,12 @@ let(:user) {double :user}
 
 	it "should load user only if stopped" do
 		train.travel
-		expect{train.let_enter(user)}.to raise_error(RuntimeError)
+		expect{train.let_enter(user)}.to raise_error"The train is not stopped, users can not enter"
 	end
 
 	it "should unload user only if stopped" do
 		train.travel
-		expect{train.let_exit(user)}.to raise_error(RuntimeError)
+		expect{train.let_exit(user)}.to raise_error"The train is not stopped, users can not exit"
 	end
 
 end
